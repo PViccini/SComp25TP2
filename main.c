@@ -1,5 +1,4 @@
-// TODO: add asm implementation of this function
-extern int ftoi_add1(float);
+extern int _ftoi_add1(float);
 
 int c_float_to_int_add1(float value)
 {
@@ -10,5 +9,5 @@ int c_float_to_int_add1(float value)
 
 int asm_float_to_int_add1(float value)
 {
-    return ftoi_add1(value);
+    return _ftoi_add1(value);
 }

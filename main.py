@@ -1,6 +1,6 @@
 import requests
 import ctypes
-
+from myClient64 import MyClient64
 
 # Función para construir la URL dinámica
 def build_url(base_url, country_iso, indicator, year, format_type):
@@ -10,23 +10,22 @@ def build_url(base_url, country_iso, indicator, year, format_type):
 def fetch_data(url):
     response = requests.get(url)
     if response.status_code == 200:
-        print('Response OK')
+        print('Conexión Exitosa')
         return response.json()
     else:
-        print('Response Failed')
+        print('Error en la conexión:')
         return None
 
 # Función para procesar los datos de la respuesta
 def process_data(data):
-    if len(data) > 1 and isinstance(data[1], list):  # Verifica que haya datos en la respuesta
-        result = data[1][0].get("value")  # La lista de resultados está en la segunda posición
+    if len(data) > 1 and isinstance(data[1], list):
+        result = data[1][0].get("value")
          
         return result
     else:
         print("No se encontraron datos en la respuesta.")
         return []
 
-# Función principal
 def main():
     # Variables dinámicas
     base_url = 'https://api.worldbank.org/v2/en/country'
@@ -47,11 +46,9 @@ def main():
         print("Datos extraídos:")
         print(result)
 
-    conversor_adder = ctypes.CDLL('./conversor_adder.so')
-    conversor_adder.c_float_to_int_add1.argtypes = (ctypes.c_float,)
-    conversor_adder.c_float_to_int_add1.restype = ctypes.c_int
-    c_result = conversor_adder.c_float_to_int_add1(result)
-    print(c_result)
+        c = MyClient64()
+        c_result = c.ftoi_add1_64(result)
+        print(c_result)
 
 # Ejecuta la función principal
 if __name__ == "__main__":
