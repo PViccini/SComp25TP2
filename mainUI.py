@@ -1,7 +1,11 @@
 import requests
 
-def build_url(base_url, country_iso, indicator, year, format_type):
-    return f'{base_url}/{country_iso}/indicator/{indicator}?format={format_type}&date={year}'
+BASE_URL = 'https://api.worldbank.org/v2/en/country'
+INDICATOR = 'SI.POV.GINI'
+FORMAT = 'json'
+
+def build_url(country_iso, year):
+    return f'{BASE_URL}/{country_iso}/indicator/{INDICATOR}?format={FORMAT}&date={year}'
 
 def fetch_data(url):
     try:
@@ -18,8 +22,8 @@ def process_data(data):
     return None
 
 
-import tkinter as tk
-from tkinter import ttk
+import ttkbootstrap as tb
+from ttkbootstrap.constants import *
 import datetime
 from myClient64 import MyClient64
 
@@ -27,53 +31,61 @@ class GiniApp:
     def __init__(self, root):
         self.root = root
         self.root.title("GINI +1")
-        self.root.geometry("400x250")
-        self.root.configure(bg="white")
+        self.root.geometry("380x250")
+        self.root.resizable(False, False)
 
+        # Country and year data
         self.countries = sorted([
             "AFG", "ALB", "DZA", "AND", "AGO", "ARG", "ARM", "AUS", "AUT", "AZE",
             "BDI", "BEL", "BEN", "BTN", "BOL", "BIH", "BWA", "BRA", "BRN", "BGR",
-            "BFA", "KHM", "CMR", "CAN", "CPV", "CAF", "TCD", "CHL", "CHN", "COL",
-            "COM", "COG", "CRI", "HRV", "CUB", "CYP", "CZE", "DNK", "DJI", "DOM",
-            "ECU", "EGY", "SLV", "GNQ", "ERI", "EST", "ETH", "FJI", "FIN", "FRA",
-            "GAB", "GMB", "GEO", "DEU", "GHA", "GRC", "GRD", "GTM", "GIN", "GNB",
-            "GUY", "HTI", "HND", "HUN", "ISL", "IND", "IDN", "IRN", "IRQ", "IRL",
-            "ISR", "ITA", "JAM", "JPN", "JOR", "KAZ", "KEN", "KIR", "KWT", "KGZ",
-            "LAO", "LVA", "LBN", "LSO", "LBR", "LBY", "LIE", "LTU", "LUX", "MDG",
-            "MWI", "MYS", "MDV", "MLI", "MLT", "MHL", "MRT", "MUS", "MEX", "MDA",
-            "MNG", "MNE", "MAR", "MOZ", "MMR", "NAM", "NRU", "NPL", "NLD", "NZL",
-            "NIC", "NER", "NGA", "PRK", "MKD", "NOR", "OMN", "PAK", "PLW", "PAN",
-            "PNG", "PRY", "PER", "PHL", "POL", "PRT", "QAT", "ROU", "RUS", "RWA",
-            "WSM", "STP", "SAU", "SEN", "SRB", "SYC", "SLE", "SGP", "SVK", "SVN",
-            "SLB", "SOM", "ZAF", "KOR", "SSD", "ESP", "LKA", "SDN", "SUR", "SWZ",
-            "SWE", "CHE", "SYR", "TJK", "TZA", "THA", "TLS", "TGO", "TON", "TTO",
-            "TUN", "TUR", "TKM", "UGA", "UKR", "ARE", "GBR", "USA", "URY", "UZB",
-            "VUT", "VEN", "VNM", "YEM", "ZMB", "ZWE"
+            "BFA", "BDI", "KHM", "CMR", "CAN", "CPV", "CAF", "TCD", "CHL", "CHN",
+            "COL", "COM", "COG", "CRI", "HRV", "CUB", "CYP", "CZE", "DNK", "DJI",
+            "DOM", "ECU", "EGY", "SLV", "GNQ", "ERI", "EST", "ETH", "FJI", "FIN",
+            "FRA", "GAB", "GMB", "GEO", "DEU", "GHA", "GRC", "GRD", "GTM", "GIN",
+            "GNB", "GUY", "HTI", "HND", "HUN", "ISL", "IND", "IDN", "IRN", "IRQ",
+            "IRL", "ISR", "ITA", "JAM", "JPN", "JOR", "KAZ", "KEN", "KIR", "KWT",
+            "KGZ", "LAO", "LVA", "LBN", "LSO", "LBR", "LBY", "LIE", "LTU", "LUX",
+            "MDG", "MWI", "MYS", "MDV", "MLI", "MLT", "MHL", "MRT", "MUS", "MEX",
+            "MDA", "MNG", "MNE", "MAR", "MOZ", "MMR", "NAM", "NRU", "NPL", "NLD",
+            "NZL", "NIC", "NER", "NGA", "PRK", "MKD", "NOR", "OMN", "PAK", "PLW",
+            "PAN", "PNG", "PRY", "PER", "PHL", "POL", "PRT", "QAT", "ROU", "RUS",
+            "RWA", "WSM", "STP", "SAU", "SEN", "SRB", "SYC", "SLE", "SGP", "SVK",
+            "SVN", "SLB", "SOM", "ZAF", "KOR", "SSD", "ESP", "LKA", "SDN", "SUR",
+            "SWZ", "SWE", "CHE", "SYR", "TJK", "TZA", "THA", "TLS", "TGO", "TON",
+            "TTO", "TUN", "TUR", "TKM", "UGA", "UKR", "ARE", "GBR", "USA", "URY",
+            "UZB", "VUT", "VEN", "VNM", "YEM", "ZMB", "ZWE"
         ])
         self.years = list(range(datetime.datetime.now().year, 1949, -1))
 
-        self.selected_country = tk.StringVar()
-        self.selected_year = tk.StringVar()
-        self.result_text = tk.StringVar(value="Please select values")
+        self.selected_country = tb.StringVar()
+        self.selected_year = tb.StringVar()
+        self.result = tb.StringVar(value="Select a country and year")
 
-        self.create_widgets()
+        self._setup_ui()
 
-    def create_widgets(self):
-        tk.Label(self.root, text="GINI +1", font=("Arial", 14, "italic"), bg="white").pack(pady=(20, 10))
+    def _setup_ui(self):
 
-        frame = tk.Frame(self.root, bg="white")
-        frame.pack(pady=10)
+        # Title
+        tb.Label(self.root, text="GINI +1", font=("Helvetica", 16, "italic")).pack(pady=(20, 10))
 
-        ttk.Label(frame, text="country").grid(row=0, column=0, padx=10)
-        country_menu = ttk.Combobox(frame, textvariable=self.selected_country, values=self.countries, state="readonly")
-        country_menu.grid(row=1, column=0, padx=10)
+        # Frame for inputs
+        input_frame = tb.Frame(self.root)
+        input_frame.pack(pady=5)
 
-        ttk.Label(frame, text="year").grid(row=0, column=1, padx=10)
-        year_menu = ttk.Combobox(frame, textvariable=self.selected_year, values=self.years, state="readonly")
-        year_menu.grid(row=1, column=1, padx=10)
+        # Country dropdown
+        tb.Label(input_frame, text="Country").grid(row=0, column=0, padx=10)
+        country_cb = tb.Combobox(input_frame, textvariable=self.selected_country, values=self.countries, width=12, bootstyle="info")
+        country_cb.grid(row=1, column=0, padx=10)
 
-        ttk.Label(self.root, textvariable=self.result_text, font=("Arial", 12)).pack(pady=20)
+        # Year dropdown
+        tb.Label(input_frame, text="Year").grid(row=0, column=1, padx=10)
+        year_cb = tb.Combobox(input_frame, textvariable=self.selected_year, values=self.years, width=6, bootstyle="info")
+        year_cb.grid(row=1, column=1, padx=10)
 
+        # Result label
+        tb.Label(self.root, textvariable=self.result, font=("Helvetica", 12), bootstyle="secondary").pack(pady=20)
+
+        # Trace selection changes
         self.selected_country.trace_add("write", self.update_result)
         self.selected_year.trace_add("write", self.update_result)
 
@@ -84,33 +96,22 @@ class GiniApp:
         if not country or not year:
             return
 
-        url = build_url(
-            base_url="https://api.worldbank.org/v2/en/country",
-            country_iso=country,
-            indicator="SI.POV.GINI",
-            year=year,
-            format_type="json"
-        )
-
+        url = build_url(country, year)
         data = fetch_data(url)
-        gini_value = process_data(data)
 
-        if gini_value is not None:
-            try:
-                c = MyClient64()
-                c_result = c.ftoi_add1_64(gini_value)
-                self.result_text.set(f"GINI +1: {c_result}")
-            except Exception as e:
-                self.result_text.set(f"Error: {e}")
+        if data:
+            gini = process_data(data)
+            if gini is not None:
+                client = MyClient64()
+                self.result.set(f"GINI + 1 = {client.ftoi_add1_64(gini)}")
+            else:
+                self.result.set("No data for selected year")
         else:
-            self.result_text.set("No data found.")
+            self.result.set("Failed to fetch data")
 
-
-# === main.py ===
-import tkinter as tk
 
 def main():
-    root = tk.Tk()
+    root = tb.Window(themename="darkly")  # try "solar", "darkly", "litera", "flaty", etc
     app = GiniApp(root)
     root.mainloop()
 
