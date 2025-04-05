@@ -1,4 +1,6 @@
 import requests
+import ctypes
+
 
 # Función para construir la URL dinámica
 def build_url(base_url, country_iso, indicator, year, format_type):
@@ -41,9 +43,15 @@ def main():
 
     # Procesa los datos si la respuesta es válida
     if data:
-        data_list = process_data(data)
+        result = process_data(data)
         print("Datos extraídos:")
-        print(data_list)
+        print(result)
+
+    conversor_adder = ctypes.CDLL('./conversor_adder.so')
+    conversor_adder.c_float_to_int_add1.argtypes = (ctypes.c_float,)
+    conversor_adder.c_float_to_int_add1.restype = ctypes.c_int
+    c_result = conversor_adder.c_float_to_int_add1(result)
+    print(c_result)
 
 # Ejecuta la función principal
 if __name__ == "__main__":
