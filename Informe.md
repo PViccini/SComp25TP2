@@ -27,6 +27,8 @@ A partir de la consigna, realizamos el siguiente diagrama para ilustrar el progr
 
 Este diagrama representa la responsabilidad de cada una de las capas.
 
+Además, existe una interfaz gráfica desarrollada en python, que permite un acceso más fácil al programa.
+
 ### Diagramas del proyecto
 
 El siguiente diagrama presenta las clases del proyecto:
