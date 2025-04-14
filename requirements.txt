@@ -1,0 +1,15 @@
+certifi==2025.1.31
+charset-normalizer==3.4.1
+idna==3.10
+msl-loadlib==0.10.0
+pillow==11.2.1
+requests==2.32.3
+ttkbootstrap==1.12.0
+urllib3==2.4.0
+
+%% Para cargar la biblioteca libz.so.1, tambien es necesario instalar bibliotecas libz1:i386 y libc6:i386. 
+%% Para poder hacerlo, es necesario habilitar que el sistema pueda trabajar con arquitectura de 32 bits:
+
+sudo dpkg --add-architecture i386 % habilita arquitectura de 32 bits
+sudo apt update
+sudo apt install libz1:i386 libc6:i386 % instala las bibliotecas necesarias
