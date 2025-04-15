@@ -1,0 +1,33 @@
+certifi==2025.1.31
+charset-normalizer==3.4.1
+idna==3.10
+msl-loadlib==0.10.0
+pillow==11.2.1
+requests==2.32.3
+snakeviz==2.2.2
+tornado==6.4.2
+ttkbootstrap==1.12.0
+urllib3==2.4.0
+
+%% Para ejecutar correctamente todos los scripts, se el entorno virtual venvTP2
+
+%% Para cargar la biblioteca libz.so.1, tambien es necesario instalar bibliotecas libz1:i386 y libc6:i386. 
+%% Para poder hacerlo, es necesario habilitar que el sistema pueda trabajar con arquitectura de 32 bits:
+
+sudo dpkg --add-architecture i386 % habilita arquitectura de 32 bits
+sudo apt update
+sudo apt install libz1:i386 libc6:i386 % instala las bibliotecas necesarias
+
+%% Para el profiling en Pyhton se comparo usando snakeviz y el modulo cProfile, 
+%% los ejecutables main.py y main_asm.py 
+%% -> Generando con cProfile los archivos profile_main.prof y profile_main_asm.prof respectivamente
+%% Luego, con snakeviz se genera el archivo profile_main.html y profile_main_asm.html, los cuales no se 
+%% guarda, pero se abren en internet y permiten una comparacion directa de lo que son los tiempos que tarda
+%% cada funcion en ejecutarse, y el tiempo total de cada uno de los scripts.
+
+%% PD: Todavia no se como aislar las funciones que nos interesan
+
+%% Lo proximo es:
+%% - intentar realizar un profiling en C
+%% - crear una direccion web local con Flask y comparar los valores de profiling obtenidos
+%% - Es necesario hacer un profiling de memoria?
