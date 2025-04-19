@@ -20,7 +20,6 @@ def fetch_data(url):
 def process_data(data):
     if len(data) > 1 and isinstance(data[1], list):
         result = data[1][0].get("value")
-         
         return result
     else:
         print("No se encontraron datos en la respuesta.")
