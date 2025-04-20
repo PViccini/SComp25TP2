@@ -21,11 +21,17 @@ def process_data(data):
         return data[1][0].get("value")
     return None
 
+try:
+    import ttkbootstrap as tb
+except ImportError:
+    import subprocess
+    import sys
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "ttkbootstrap"])
+    import ttkbootstrap as tb
 
-import ttkbootstrap as tb
 from ttkbootstrap.constants import *
 import datetime
-from myClient64 import MyClient64
+from src.myClient64 import MyClient64
 
 class GiniApp:
     def __init__(self, root):

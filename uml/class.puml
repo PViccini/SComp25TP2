@@ -1,0 +1,36 @@
+@startuml
+
+class main_py {
+    +main()
+    +build_url(base_url: str, country_iso: str, indicator: str, year: str, format_type: str): str
+    +fetch_data(url: str): JSON
+    +process_data(data: dict): float
+}
+
+class MyClient64 {
+    +ftoi_add1_64(value: float): int
+}
+
+main_py --> MyClient64
+
+class MyServer32 {
+    +ftoi_add1_32(value: float): int
+}
+
+MyClient64 --> MyServer32 : uses
+
+class main_c {
+    +c_float_to_int_add1(value: float): int
+    +asm_float_to_int_add1(value: float): int
+}
+
+MyServer32 --> main_c : interacts
+
+class main_s {
+    +_ftoi_add1(value: float): int
+}
+
+main_c --> main_s : calls
+
+@enduml
+

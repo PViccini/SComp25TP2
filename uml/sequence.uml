@@ -1,0 +1,27 @@
+@startuml
+
+actor User
+
+participant "main_py" as MainPy
+participant "url" as URL
+participant "MyClient64" as Client64
+participant "MyServer32" as Server32
+participant "main_c" as MainC
+participant "main_s" as MainS
+
+User -> MainPy: inputs
+MainPy -> MainPy: build_url()
+MainPy -> URL: fetch_data()
+URL -> MainPy: return data
+MainPy -> MainPy: process_data()
+MainPy -> Client64: ftoi_add1_64()
+Client64 -> Server32: ftoi_add1_32()
+Server32 -> MainC: c_float_to_int_add1()
+MainC -> MainS: _ftoi_add1()
+MainS --> MainC: return int
+MainC --> Server32: return int
+Server32 --> Client64: return int
+Client64 --> MainPy: return int
+MainPy --> User: return result
+
+@enduml
