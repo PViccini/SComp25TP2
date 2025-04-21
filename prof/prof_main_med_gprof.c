@@ -17,16 +17,12 @@ int asm_float_to_int_add1(float value)
 
 
 int main() {
-    const int iterations = 10000000;  // Número de iteraciones para aumentar el tiempo de ejecución
+    const int iterations = 100000000;  // Número de iteraciones para aumentar el tiempo de ejecución
     float value = 4.56;
 
-    // Medir tiempo de c_float_to_int_add1
+    // Medir tiempos a traves de iteraciones
     for (int i = 0; i < iterations; i++) {
         c_float_to_int_add1(value);
-    }
-
-    // Medir tiempo de asm_float_to_int_add1
-    for (int i = 0; i < iterations; i++) {
         asm_float_to_int_add1(value);
     }
 
