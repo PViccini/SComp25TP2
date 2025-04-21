@@ -42,7 +42,24 @@ En el diagrama de secuencia se puede observar como las capas actúan de manera a
 
 ### Time Profiling
 
-#### Función clock
+#### Profiling en Python
+
+A los fines de medir el rendimiento del programa sintetizado, se realizo profiling del programa principan en Python (utilizando la herramienta cProfile junto con snakeviz), y se comparo su rendimiento cuando funcion de calculo de conversion de float a entero fue implementada en C y en Ensamblador. 
+La ejecucion del programa con la funcion implementada directamente en C arrojo el siguiente diagrama:
+
+![Diagrama N°4, profiling en Python - Con funcion C](img/pyProfilingC.png).
+
+Luego, al implementar el codigo de la funcion de calculo utilizando lenguaje Ensamblador, se obtuvo el siguiente diagrama:
+
+![Diagrama N°5, profiling en Python - Con funcion C](img/pyProfilingASM.png).
+
+Se evidencia una notable mejora en el rendimiento del programa, reduciendose el tiempo de ejecucion del mismo en un 25,2%. 
+
+#### Profiling de funciones en C
+
+Luego, se realizo la misma comparacion, pero esta vez en C, enfrentando unicamente a las funciones de calculo. Esta segunda comparacion se realizo por metodo directo (usando la funcion clock()), y a traves de la herramienta gprof.
+
+#### Función clock()
 
 Para realizar el profiling con C de forma directa, se utiliza la función clock(). Se han seguido los siguientes pasos para obtener resultados aproximados:
 
