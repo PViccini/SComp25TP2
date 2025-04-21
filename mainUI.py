@@ -1,6 +1,10 @@
 import requests
+import os
+import time
 
-BASE_URL = 'https://api.worldbank.org/v2/en/country'
+USE_MOCK = os.getenv("USE_MOCK", "false").lower() == "true"
+BASE_URL = 'http://localhost:5001/v2/en/country' if USE_MOCK else 'https://api.worldbank.org/v2/en/country'
+
 INDICATOR = 'SI.POV.GINI'
 FORMAT = 'json'
 
@@ -9,7 +13,12 @@ def build_url(country_iso, year):
 
 def fetch_data(url):
     try:
+        if USE_MOCK:
+            start = time.perf_counter()
         response = requests.get(url)
+        if USE_MOCK:
+            elapsed = time.perf_counter() - start
+            print(f"⏱️ API call to {url} took {elapsed:.4f} seconds")
         if response.status_code == 200:
             return response.json()
     except Exception as e:
