@@ -44,20 +44,24 @@ En el diagrama de secuencia se puede observar como las capas actúan de manera a
 
 #### Profiling en Python
 
-A los fines de medir el rendimiento del programa sintetizado, se realizo profiling del programa principan en Python (utilizando la herramienta cProfile junto con snakeviz), y se comparo su rendimiento cuando funcion de calculo de conversion de float a entero fue implementada en C y en Ensamblador. 
-La ejecucion del programa con la funcion implementada directamente en C arrojo el siguiente diagrama:
+A los fines de medir el rendimiento del programa sintetizado, se realizo profiling del programa principal en Python (utilizando la herramienta cProfile junto con snakeviz), y se comparó su rendimiento cuando la función de cálculo de conversión de float a entero fue implementada en C y en Ensamblador. 
+La ejecución del programa con la función implementada directamente en C arrojo el siguiente diagrama:
 
 ![Diagrama N°4, profiling en Python - Con funcion C](img/pyProfilingC.png).
 
-Luego, al implementar el codigo de la funcion de calculo utilizando lenguaje Ensamblador, se obtuvo el siguiente diagrama:
+Luego, al implementar el código de la función de cálculo utilizando lenguaje Ensamblador, se obtuvo el siguiente diagrama:
 
 ![Diagrama N°5, profiling en Python - Con funcion C](img/pyProfilingASM.png).
 
-Se evidencia una notable mejora en el rendimiento del programa, reduciendose el tiempo de ejecucion del mismo en un 25,2%. 
+Se evidencia una notable mejora en el rendimiento del programa, reduciéndose el tiempo de ejecución del mismo en un 25,2%.
+
+#### Profiling con mock de server en flask
+
+Se creó un mock de servidor en Python utilizando flask, con la intención de medir el tiempo de respuesta de la API sin considerar demoras debidas a factores externos como la latencia de la conexión. Una vez compilado y corriendo, se conecta al servidor de mock en vez del real utilizando el comando USE_MOCK=true python3 mainUI.py, por ejemplo. Después de numerosas ejecuciones, el valor promedio obtenido es de 0.007 segundos. Esto representa una gran diferencia muy grande con lo observado en la figura 5, donde los tiempos que correspondían a api.py(get) eran de aproximadamente 0.770 segundos. Esta diferencia  podría corresponderse con tiempos razonables para una red doméstica inalámbrica.
 
 #### Profiling de funciones en C
 
-Luego, se realizo la misma comparacion, pero esta vez en C, enfrentando unicamente a las funciones de calculo. Esta segunda comparacion se realizo por metodo directo (usando la funcion clock()), y a traves de la herramienta gprof.
+Luego, se realizo la misma comparación, pero esta vez en C, enfrentando únicamente a las funciones de cálculo. Esta segunda comparacion se realizó por método directo (usando la funcion clock()), y a traves de la herramienta gprof.
 
 #### Función clock()
 
@@ -99,3 +103,5 @@ A partir de gprof, se obtienen los siguientes resultados, que representan el tie
 ## Conclusión
 
 El principal problema con el que nos enfrentamos fue la incompatibilidad entre el trabajo en 64 bits de python y en 32 bits del programa de assembler. Sin embargo, la incorporación de la librería msl-loadlib nos permitió salvarlo, de manera tal que pudimos desarrollar el proyecto con todas sus capas interactuando como se deseaba.
+
+Por el lado del profiling, pudimos observar una brecha muy grande entre el desempeño de las funciones al comparar los programas en C y en Assembler, tanto comparándolos desde C como desde Python. Esto es muy valioso porque aunque sabíamos en teoría que esto era una ventaja del Assembler, estamos acostumbrados a trabajar en su mayoría con hardware tan rápido y subutilizado que la diferencia no es notable.
