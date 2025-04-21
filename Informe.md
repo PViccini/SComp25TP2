@@ -85,19 +85,18 @@ Esto representa una pequeña diferencia en tiempos nominales, pero una diferenci
 
 Utilizando gprof, se realiza también un análisis, para el cual se siguen los siguientes pasos:
 1. Se crea un nuevo prof_main_med_gprof.c para poder modificar main.c para realizar el profiling.
-2. Se crea una función main simplificada, que llame iteradas veces (10.000.000 de veces) a cada funcion, debido a que son funciones muy rápidas
+2. Se crea una función main simplificada, que llame iteradas veces (100.000.000 de veces) a cada funcion, debido a que son funciones muy rápidas
 3. Se compila el programa con la opción -pg, que habilita la generación de datos de profiling, y -O0, para que no optimice el código, evitando posible simplicaciones.
 4. Luego, se ejecuta el ejecutable prof_main_med_gprof.
 
 A partir de gprof, se obtienen los siguientes resultados, que representan el tiempo dedicado a cada tarea.
 
-| % Time | Cumulative Seconds | Self Seconds | Calls     | ns/Call (Self) | ns/Call (Total) | Name                    |
-|--------|--------------------|--------------|-----------|----------------|------------------|-------------------------|
-| 91.97  | 1.26               | 1.26         |           |                |                  | _ftoi_add1_32bits       |
-| 4.38   | 1.32               | 0.06         | 10,000,000| 6.00           | 6.00             | asm_float_to_int_add1   |
-| 2.92   | 1.36               | 0.04         |           |                |                  | main                    |
-| 0.73   | 1.37               | 0.01         |           |                |                  | __x86.get_pc_thunk.bx   |
-| 0.00   | 1.37               | 0.00         | 10,000,000| 0.00           | 0.00             | c_float_to_int_add1     |
+| % Time | Cumulative Seconds | Self Seconds | Calls      | ns/Call (Self) | ns/Call (Total)  | Name                    |
+|--------|--------------------|--------------|------------|----------------|------------------|-------------------------|
+| 96.88  | 2.48               | 2.48         |            |                |                  | _ftoi_add1_32bits       |
+| 1.56   | 2.52               | 0.04         |            |                |                  | main                    |
+| 1.17   | 2.55               | 0.03         | 100,000,000| 3.00           | 6.00             | asm_float_to_int_add1   |
+| 0.39   | 2.56               | 0.01         | 100,000,000| 1.00           | 1.00             | c_float_to_int_add1     |
 
 
 ## Conclusión
