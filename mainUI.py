@@ -70,7 +70,7 @@ class GiniApp:
             "TTO", "TUN", "TUR", "TKM", "UGA", "UKR", "ARE", "GBR", "USA", "URY",
             "UZB", "VUT", "VEN", "VNM", "YEM", "ZMB", "ZWE"
         ])
-        self.years = list(range(datetime.datetime.now().year, 1949, -1))
+        self.years = list(range(2020, 2010, -1))
 
         self.selected_country = tb.StringVar()
         self.selected_year = tb.StringVar()
@@ -126,7 +126,7 @@ class GiniApp:
 
 
 def main():
-    root = tb.Window(themename="darkly")  # try "solar", "darkly", "litera", "flaty", etc
+    root = tb.Window(themename="solar")
     app = GiniApp(root)
     root.mainloop()
 
