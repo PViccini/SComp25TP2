@@ -40,6 +40,12 @@ Como se puede apreciar, introdujimos las capas MyClient64 y MiServer32 para salv
 
 En el diagrama de secuencia se puede observar como las capas actúan de manera anidada.
 
+### Interfaz
+
+Como interfaz gráfica, incorporamos la siguiente, que permite elegir un país y año. Esta desarrollada usando la libreria de python ttkbootstrap, la cual es un wrapper de la famosa libreria tkinter y nos permite usar themes predefinidos.
+
+![Interfaz gŕafica](img/GUI.png)
+
 ### Time Profiling
 
 #### Profiling en Python
